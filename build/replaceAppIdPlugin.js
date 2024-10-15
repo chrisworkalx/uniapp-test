@@ -9,6 +9,8 @@ const envConfig = require(`../env.${env}.js`);
 const platform = process.env.UNI_PLATFORM;
 const isWeXinPlatform = platform === "mp-weixin";
 
+let hasExecutedBeforeCompile = false;
+let hasExecutedDone = false;
 function replaceInFile(isReplace = true) {
   //读取文件流
   const manifestPath = path.resolve(__dirname, "../src/manifest.json");
@@ -37,7 +39,6 @@ function replaceInFile(isReplace = true) {
  */
 class ReplaceAppID {
   constructor(options) {
-    console.log("options", options);
     this.options = options;
   }
 
@@ -47,6 +48,11 @@ class ReplaceAppID {
       async (compilation, callback) => {
         if (isWeXinPlatform) {
           try {
+            if (hasExecutedBeforeCompile) {
+              console.log("首次构建已经完成，不再重复执行");
+              return callback();
+            }
+            hasExecutedBeforeCompile = true;
             await replaceInFile();
             callback();
           } catch (error) {
@@ -62,6 +68,11 @@ class ReplaceAppID {
       async (compilation, callback) => {
         if (isWeXinPlatform) {
           try {
+            if (hasExecutedDone || env === "development") {
+              console.log("开发环境或者插件逻辑已执行完成，不再重复执行");
+              return callback(); // 继续构建流程
+            }
+            hasExecutedDone = true;
             await replaceInFile(false);
             callback();
           } catch (error) {

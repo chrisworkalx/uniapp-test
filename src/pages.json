@@ -17,8 +17,33 @@
       "style": {
         "navigationBarTitleText": "组件"
       }
+    },
+    {
+      "path": "pages/404/404",
+      "style": {
+        "navigationBarTitleText": "page not found"
+      }
     }
   ],
+  "subPackages": [
+    {
+      "root": "subpages",
+      "pages": [
+        {
+          "path": "news/news",
+          "style": {
+            "navigationBarTitleText": "新闻中心"
+          }
+        }
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["subpages"]
+    }
+  },
   "tabBar": {
     "color": "#7A7E83",
     "selectedColor": "#007AFF",

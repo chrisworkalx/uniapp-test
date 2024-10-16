@@ -5,6 +5,7 @@ module.exports = {
   configureWebpack: {
     plugins: [new ReplaceAppIdPlugin()],
   },
+  transpileDependencies: ["@dcloudio/uni-ui"],
   devServer: {
     watchOptions: {
       ignored: path.resolve(__dirname, "src/manifest.json"), // 忽略 node_modules 目录

@@ -1,5 +1,6 @@
 <template>
   <view class="content">
+    <hcp-header></hcp-header>
     <image class="logo" src="/static/logo.png"></image>
     <view>
       <text class="title">{{ title }}</text>

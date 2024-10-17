@@ -47,11 +47,25 @@
   },
   "quickapp": {},
   "mp-weixin": {
-    "appid": "wxd3282c293c499db8",
+    "appid": "",
     "setting": {
-      "urlCheck": false
+      "urlCheck": false, //不开启域名检查
+      "es6": true, // es6转es5开启
+      "postcss": true, //开启postcss
+      "minified": true //代码压缩
     },
-    "usingComponents": true
+    "usingComponents": true,
+    "optimization": {
+      "domSubTreeLevel": 10,
+      "elementMultiplexing": true,
+      "styleValueReduce": true,
+      "domExtendMultiplexing": true,
+      "subTreeStaticClass": true,
+      "dataShare": true,
+      "subPackages": true,
+      "enableNative": true
+    },
+    "lazyCodeLoading": "requiredComponents"
   },
   "mp-alipay": {
     "usingComponents": true

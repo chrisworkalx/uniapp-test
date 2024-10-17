@@ -47,7 +47,7 @@
   },
   "quickapp": {},
   "mp-weixin": {
-    "appid": "",
+    "appid": "wxd3282c293c499db8",
     "setting": {
       "urlCheck": false, //不开启域名检查
       "es6": true, // es6转es5开启

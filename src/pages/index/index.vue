@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { executeOnPlatform } from "@/utils/util";
 export default {
   data() {
     return {
@@ -36,6 +37,14 @@ export default {
     //获取页面堆栈信息
     const pages = getCurrentPages();
     console.log("pages", pages);
+  },
+  onPullDownRefresh() {
+    console.log("下拉刷新");
+    executeOnPlatform("h5", () => {
+      setTimeout(() => {
+        uni.stopPullDownRefresh();
+      }, 2000);
+    });
   },
   methods: {
     goToNewsPage() {

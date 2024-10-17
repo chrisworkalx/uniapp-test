@@ -1,27 +1,39 @@
 <template>
-  <view class="content">
-    <hcp-header></hcp-header>
-    <image class="logo" src="/static/logo.png"></image>
-    <view>
-      <text class="title">{{ title }}</text>
+  <view>
+    <view class="content">
+      <hcp-header></hcp-header>
+      <image class="logo" src="/static/logo.png"></image>
+      <view>
+        <text class="title">{{ title }}</text>
+      </view>
+      <navigator
+        url="/pages/componentInstance/componentInstance"
+        open-type="switchTab"
+        hover-class="navigator-hover"
+      >
+        跳转到组件页面
+      </navigator>
+      <navigator
+        url="/subpages/image/image"
+        open-type="navigate"
+        hover-class="navigator-hover"
+      >
+        跳转到图像页面
+      </navigator>
+      <view @click="goToNewsPage">
+        <text>去新闻页面</text>
+      </view>
     </view>
-    <navigator
-      url="/pages/componentInstance/componentInstance"
-      open-type="switchTab"
-      hover-class="navigator-hover"
-    >
-      跳转到组件页面
-    </navigator>
-    <navigator
-      url="/subpages/image/image"
-      open-type="navigate"
-      hover-class="navigator-hover"
-    >
-      跳转到图像页面
-    </navigator>
-    <view @click="goToNewsPage">
-      <text>去新闻页面</text>
-    </view>
+
+    <canvas
+      id="captureCanvas"
+      canvas-id="captureCanvas"
+      class="capture-canvas"
+    ></canvas>
+
+    <button @click="drawSharePageToCanvas" open-type="share">
+      Capture and Share
+    </button>
   </view>
 </template>
 
@@ -46,10 +58,100 @@ export default {
       }, 2000);
     });
   },
+  // 开启分享好友
+  // onShareAppMessage() {
+  //   return {
+  //     title: "Welcome to My Mini Program!",
+  //     path: "/pages/index/index", // The path to the shared page
+  //     imageUrl: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg", // Custom share image
+  //   };
+  // },
+  //开启分享朋友圈
+  onShareTimeline() {
+    return {
+      title: "Check out this awesome app!",
+      query: "id=123&name=abc", // Query parameters to pass with the share
+      imageUrl: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg", // Custom share image
+    };
+  },
   methods: {
     goToNewsPage() {
       uni.navigateTo({
         url: "/subpages/news/news",
+      });
+    },
+    // 获取当前页面内容并绘制到 canvas
+    drawSharePageToCanvas() {
+      const self = this;
+      console.log("开启绘制分享");
+      const query = uni.createSelectorQuery().in(self);
+      query
+        .select(".content") // 选择要绘制的内容区域
+        .boundingClientRect()
+        .exec((res) => {
+          console.log("res", res);
+          const contentRect = res[0];
+          const { width, height } = contentRect;
+          const ctx = uni.createCanvasContext("captureCanvas", self);
+
+          // 设置背景色和内容绘制
+          ctx.setFillStyle("#fff");
+          ctx.fillRect(0, 0, width, height);
+
+          // 绘制文字（也可以绘制图片等其他元素）
+          ctx.setFontSize(20);
+          ctx.setFillStyle("#333");
+          ctx.fillText("这是一个分享页面", 10, 30);
+
+          console.log("ctx", ctx);
+
+          // 结束绘制
+          ctx.draw(true, (...rest) => {
+            console.log("绘制完成---", rest);
+            this.generateImage();
+          });
+        });
+    },
+
+    // 生成图片地址
+    generateImage() {
+      console.log("开始生成缓存地址---");
+      uni.canvasToTempFilePath(
+        {
+          canvasId: "captureCanvas",
+          success: (res) => {
+            this.imagePath = res.tempFilePath; // 保存图片地址
+            console.log("图片生成成功：", this.imagePath);
+
+            // 调用分享逻辑
+            this.shareToFriend(this.imagePath);
+          },
+          fail: (err) => {
+            console.error("图片生成失败：", err);
+          },
+        },
+        this
+      );
+    },
+    shareToFriend(imagePath) {
+      uni.share({
+        provider: "weixin", // 支持微信分享
+        sence: "WXSceneSession", // 分享到会话
+        type: 2, // 分享图片
+        imageUrl: imagePath, // 图片路径
+        success: () => {
+          uni.showToast({
+            title: "分享成功",
+            icon: "success",
+          });
+        },
+        fail: (err) => {
+          console.error("分享失败：", err);
+          uni.showToast({
+            title: "分享失败",
+            icon: "error",
+          });
+        },
       });
     },
   },
@@ -78,5 +180,14 @@ export default {
 .title {
   font-size: 36rpx;
   color: #8f8f94;
+}
+.capture-canvas {
+  position: absolute;
+  left: -100%;
+  height: -100%;
+  background-color: transparent;
+  width: 300rpx;
+  height: 300rpx;
+  z-index: -10;
 }
 </style>

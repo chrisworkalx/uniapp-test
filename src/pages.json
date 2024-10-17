@@ -14,19 +14,26 @@
         "backgroundColor": "#f40",
         "backgroundTextStyle": "light",
         "enablePullDownRefresh": true,
-        "onReachBottomDistance": 50
+        "onReachBottomDistance": 50,
+        "enableShareAppMessage": true,
+        "enableShareTimeline": true
       }
     },
     {
       "path": "pages/interface/interface",
       "style": {
-        "navigationBarTitleText": "接口"
+        "navigationBarTitleText": "接口",
+        "enableShareAppMessage": true,
+        "enableShareTimeline": true
       }
     },
     {
       "path": "pages/componentInstance/componentInstance",
       "style": {
-        "navigationBarTitleText": "组件"
+        "navigationBarTitleText": "组件",
+        "navigationStyle": "custom",
+        "enableShareAppMessage": true,
+        "enableShareTimeline": true
       }
     },
     {

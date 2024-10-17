@@ -8,6 +8,14 @@
     <view>
       <text v-for="item in list" :key="item">{{ item }}</text>
     </view>
+    <canvas
+      id="myCanvas"
+      canvas-id="myCanvas"
+      style="width: 300px; height: 300px"
+    ></canvas>
+    <button @click="exportCanvas" open-type="share" class="share-button">
+      导出画布
+    </button>
   </view>
 </template>
 
@@ -21,11 +29,82 @@ export default {
   onLoad() {
     this.getGlobalData();
   },
+  mounted() {
+    this.drawCanvas();
+  },
+  //开启分享好友 这个方法会覆盖uni.share方法
+  // onShareAppMessage() {
+  //   return {
+  //     title: "Welcome to My Mini Program!",
+  //     path: "/pages/index/index", // The path to the shared page
+  //     imageUrl: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg", // Custom share image
+  //   };
+  // },
   methods: {
     getGlobalData() {
       const gData = getApp().globalData;
       console.log(gData);
       this.list = Object.freeze(gData.list || []);
+    },
+    drawCanvas() {
+      const ctx = uni.createCanvasContext("myCanvas", this);
+      ctx.setFillStyle("blue");
+      ctx.fillRect(50, 50, 200, 200);
+      ctx.draw(true, () => {
+        uni.canvasToTempFilePath(
+          {
+            canvasId: "myCanvas",
+            success: (res) => {
+              console.log("导出的临时文件路径:", res.tempFilePath);
+              const tempFilePath = res.tempFilePath;
+
+              const query = uni.createSelectorQuery().in(this);
+              const btn = query
+                .select(".share-button")
+                .boundingClientRect()
+                .exec((res) => {
+                  console.log("res", res);
+                });
+              console.log("btn", btn);
+            },
+            fail: (err) => {
+              console.error("导出失败:", err);
+            },
+          },
+          this
+        );
+      }); // 绘制画布
+    },
+    exportCanvas() {
+      // 确保绘制完成后再导出
+      setTimeout(() => {
+        uni.canvasToTempFilePath(
+          {
+            canvasId: "myCanvas",
+            success: (res) => {
+              console.log("导出的临时文件路径:", res.tempFilePath);
+              const tempFilePath = res.tempFilePath;
+              // 可以在这里使用导出的文件，例如预览或上传
+              uni.share({
+                provider: "weixin",
+                scene: "WXSceneSession",
+                type: 2,
+                imageUrl: tempFilePath,
+                success: function (res) {
+                  console.log("success:" + JSON.stringify(res));
+                },
+                fail: function (err) {
+                  console.log("fail:" + JSON.stringify(err));
+                },
+              });
+            },
+            fail: (err) => {
+              console.error("导出失败:", err);
+            },
+          },
+          this
+        );
+      }, 100); // 确保有足够时间绘制完成
     },
   },
 };

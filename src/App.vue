@@ -17,6 +17,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 /*每个页面公共css */
+@import "@dcloudio/uni-ui/lib/uni-scss/index.scss";
 </style>

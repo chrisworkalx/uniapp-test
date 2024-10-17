@@ -12,6 +12,13 @@
     >
       跳转到组件页面
     </navigator>
+    <navigator
+      url="/subpages/image/image"
+      open-type="navigate"
+      hover-class="navigator-hover"
+    >
+      跳转到图像页面
+    </navigator>
     <view @click="goToNewsPage">
       <text>去新闻页面</text>
     </view>

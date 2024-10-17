@@ -41,6 +41,12 @@
           "style": {
             "navigationBarTitleText": "新闻中心"
           }
+        },
+        {
+          "path": "image/image",
+          "style": {
+            "navigationBarTitleText": "图片中心"
+          }
         }
       ]
     }

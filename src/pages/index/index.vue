@@ -2,6 +2,27 @@
   <view>
     <view class="content">
       <hcp-header></hcp-header>
+      <view>
+        <view>vuex---start</view>
+        <text>{{ count }} | </text>
+        <text>{{ getCount }} | </text>
+        <text>{{ getName }} | </text>
+        <view>vuex---over</view>
+        <button @click="increment">increment</button>
+        <button @click="decrement">decrement</button>
+        <button @click="cstIncrement(5)">自定义增加</button>
+        <button @click="decrementAlia">别名</button>
+        <view>modules---counter2</view>
+        <text>{{ counterGetCount2 }} |</text>
+        <text>{{ counterStateCount }}</text> |
+        <text>{{ counterGetterCount }}</text>
+        <view>modules--counter</view>
+        <text>{{ counterGetCount }}</text>
+        <button @click="counterIncrementAsync">
+          counter模块action别名方法
+        </button>
+        <button @click="incrementOtherModule(80)">更新其他模块</button>
+      </view>
       <image class="logo" src="/static/logo.png"></image>
       <view>
         <text class="title">{{ title }}</text>
@@ -39,6 +60,7 @@
 </template>
 
 <script>
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 import { executeOnPlatform } from "@/utils/util";
 export default {
   data() {
@@ -85,6 +107,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions("counter", {
+      counterIncrementAsync: "incrementAsync",
+      incrementOtherModule: "incrementOtherModule",
+    }),
+    //mapActions和mapMutations都可以别名处理
+    ...mapActions(["incrementAsync"]),
+    ...mapMutations({
+      decrementAlia: "decrement", //别名
+    }),
     goToNewsPage() {
       uni.navigateTo({
         url: "/subpages/news/news",
@@ -173,6 +204,37 @@ export default {
           console.log("跳转到其他小程序成功");
         },
       });
+    },
+    increment() {
+      this.$store.dispatch("increment"); // 调用 action
+    },
+    decrement() {
+      this.$store.dispatch("decrement"); // 调用 action
+    },
+    cstIncrement(n) {
+      this.incrementAsync(n);
+    },
+  },
+  computed: {
+    ...mapGetters(["getCount"]),
+    ...mapState({
+      getName: (state) => state.name,
+    }),
+    ...mapState("counter", {
+      counterGetCount: (state) => state.count,
+    }), // 使用命名空间映射状态
+    ...mapState("counter2", {
+      counterGetCount2: (state) => state.count,
+    }),
+    count() {
+      return this.$store.getters.getCount; // 使用 getter 获取状态
+    },
+    counterGetterCount() {
+      console.log("this.$store", this.$store);
+      return this.$store.getters["counter2/getCount"]; // 使用命名空间获取状态
+    },
+    counterStateCount() {
+      return this.$store.state.counter2.count; // 使用命名空间获取状态
     },
   },
 };

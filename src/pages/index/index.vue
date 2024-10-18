@@ -34,6 +34,7 @@
     <button @click="drawSharePageToCanvas" open-type="share">
       Capture and Share
     </button>
+    <button type="primary" @click="gotoOtherMiniProgram">去其他小程序</button>
   </view>
 </template>
 
@@ -54,6 +55,15 @@ export default {
     console.log("下拉刷新");
     executeOnPlatform("h5", () => {
       setTimeout(() => {
+        uni.stopPullDownRefresh();
+      }, 2000);
+    });
+    executeOnPlatform("mp-weixin", () => {
+      setTimeout(() => {
+        uni.showToast({
+          title: "下拉刷新",
+          icon: "none",
+        });
         uni.stopPullDownRefresh();
       }, 2000);
     });
@@ -151,6 +161,16 @@ export default {
             title: "分享失败",
             icon: "error",
           });
+        },
+      });
+    },
+    gotoOtherMiniProgram() {
+      uni.navigateToMiniProgram({
+        appId: "wx069326dfb5ca0b76", // 替换为其他小程序的AppID
+        path: "pages/404/404", // 替换为其他小程序的页面路径
+        envVersion: "trial", // 体验版
+        success: () => {
+          console.log("跳转到其他小程序成功");
         },
       });
     },

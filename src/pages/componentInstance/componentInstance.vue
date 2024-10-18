@@ -1,5 +1,10 @@
 <template>
   <view>
+    <hcp-custom-navbar
+      :mt="iStatusBarHeight"
+      title="自定义导航栏"
+      @rightClick="handleRightClick"
+    ></hcp-custom-navbar>
     <text>组件</text>
     <view class="uni-primary">主色</view>
     <view class="uni-success">成功色</view>
@@ -16,6 +21,13 @@
     <button @click="exportCanvas" open-type="share" class="share-button">
       导出画布
     </button>
+    <navigator
+      url="/pages/life/life"
+      open-type="navigate"
+      hover-class="navigator-hover"
+    >
+      去生命周期
+    </navigator>
   </view>
 </template>
 
@@ -24,10 +36,14 @@ export default {
   data() {
     return {
       list: [],
+      iStatusBarHeight: 0,
     };
   },
   onLoad() {
     this.getGlobalData();
+    const h = uni.getSystemInfoSync().statusBarHeight;
+
+    this.iStatusBarHeight = h;
   },
   mounted() {
     this.drawCanvas();
@@ -105,6 +121,9 @@ export default {
           this
         );
       }, 100); // 确保有足够时间绘制完成
+    },
+    handleRightClick() {
+      console.log("right click");
     },
   },
 };

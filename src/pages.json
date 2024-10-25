@@ -47,6 +47,13 @@
       "style": {
         "navigationBarTitleText": "生命周期"
       }
+    },
+    {
+      "path": "pages/shop/shop",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
     }
   ],
   "subPackages": [
@@ -63,6 +70,36 @@
           "path": "image/image",
           "style": {
             "navigationBarTitleText": "图片中心"
+          }
+        },
+        {
+          "path": "my/my",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "sticky/sticky",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "floor/floor",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "scroll/scroll",
+          "style": {
+            "navigationBarTitleText": "滚动"
+          }
+        },
+        {
+          "path": "intersectionObserver/intersectionObserver",
+          "style": {
+            "navigationBarTitleText": "intersectionObserver"
           }
         }
       ]
@@ -108,7 +145,7 @@
   },
   "condition": {
     //模式配置，仅开发期间生效
-    "current": 0, //当前激活的模式（list 的索引项）
+    "current": 2, //当前激活的模式（list 的索引项）
     "list": [
       {
         "name": "404", //模式名称
@@ -118,6 +155,41 @@
       {
         "name": "新闻页",
         "path": "subpages/news/news",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "自定义navbar",
+        "path": "subpages/my/my",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "sticky",
+        "path": "subpages/sticky/sticky",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "floor",
+        "path": "subpages/floor/floor",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "life",
+        "path": "pages/life/life",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "scroll",
+        "path": "subpages/scroll/scroll",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "shop",
+        "path": "pages/shop/shop",
+        "query": "pagesize=10&pagenum=2"
+      },
+      {
+        "name": "intersectionObserver",
+        "path": "subpages/intersectionObserver/intersectionObserver",
         "query": "pagesize=10&pagenum=2"
       }
     ]

@@ -44,6 +44,38 @@
       <view @click="goToNewsPage">
         <text>去新闻页面</text>
       </view>
+      <navigator
+        url="/subpages/my/my"
+        open-type="navigate"
+        class="navigator"
+        hover-class="navigator-hover"
+      >
+        我的
+      </navigator>
+      <navigator
+        url="/subpages/sticky/sticky"
+        open-type="navigate"
+        class="navigator"
+        hover-class="navigator-hover"
+      >
+        sticky
+      </navigator>
+      <navigator
+        url="/subpages/floor/floor"
+        open-type="navigate"
+        class="navigator"
+        hover-class="navigator-hover"
+      >
+        floor
+      </navigator>
+      <navigator
+        url="/pages/shop/shop"
+        open-type="navigate"
+        class="navigator"
+        hover-class="navigator-hover"
+      >
+        商品
+      </navigator>
     </view>
 
     <canvas
@@ -241,6 +273,28 @@ export default {
 </script>
 
 <style>
+.navigator {
+  padding: 20rpx;
+  background-color: #007aff;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 10rpx;
+  margin: 20rpx;
+  display: inline-block;
+}
+.navigator-hover {
+  background-color: #f40;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+}
 .content {
   display: flex;
   flex-direction: column;

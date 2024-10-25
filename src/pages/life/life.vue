@@ -2,6 +2,11 @@
   <view>
     <text>生命周期</text>
     <text>{{ num }}</text>
+    <hcp-dropdown-menu></hcp-dropdown-menu>
+    <hcp-vant-drop-down
+      :options="menuOptions"
+      @change="handleChange"
+    ></hcp-vant-drop-down>
   </view>
 </template>
 
@@ -11,7 +16,14 @@ export default {
   data() {
     return {
       num: 10,
+      menuOptions: ["选项1", "选项2", "选项3"],
     };
+  },
+
+  methods: {
+    handleChange(selectedItem) {
+      console.log("Selected item:", selectedItem);
+    },
   },
 
   //初始化挂载阶段-----------------------------start

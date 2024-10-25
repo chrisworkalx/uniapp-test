@@ -6,6 +6,7 @@
       @rightClick="handleRightClick"
     ></hcp-custom-navbar>
     <text>组件</text>
+    <hcp-bubble></hcp-bubble>
     <view class="uni-primary">主色</view>
     <view class="uni-success">成功色</view>
     <view class="uni-warning">警告色</view>
